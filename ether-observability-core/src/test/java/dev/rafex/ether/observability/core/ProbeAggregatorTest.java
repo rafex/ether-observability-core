@@ -6,16 +6,21 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import dev.rafex.ether.observability.core.probe.ProbeAggregator;
+import dev.rafex.ether.observability.core.probe.ProbeKind;
+import dev.rafex.ether.observability.core.probe.ProbeResult;
+import dev.rafex.ether.observability.core.probe.ProbeStatus;
+
 class ProbeAggregatorTest {
 
-	@Test
-	void shouldAggregateToDownWhenAnyProbeIsDown() {
-		final var report = ProbeAggregator.aggregate(ProbeKind.HEALTH, List.of(
-				() -> new ProbeResult("db", ProbeKind.HEALTH, ProbeStatus.UP, ""),
-				() -> new ProbeResult("cache", ProbeKind.HEALTH, ProbeStatus.DOWN, "timeout")));
+    @Test
+    void shouldAggregateToDownWhenAnyProbeIsDown() {
+        final var report = ProbeAggregator.aggregate(ProbeKind.HEALTH,
+                List.of(() -> new ProbeResult("db", ProbeKind.HEALTH, ProbeStatus.UP, ""),
+                        () -> new ProbeResult("cache", ProbeKind.HEALTH, ProbeStatus.DOWN, "timeout")));
 
-		assertEquals(ProbeStatus.DOWN, report.status());
-		assertEquals(ProbeStatus.UP, report.byName().get("db"));
-		assertEquals(ProbeStatus.DOWN, report.byName().get("cache"));
-	}
+        assertEquals(ProbeStatus.DOWN, report.status());
+        assertEquals(ProbeStatus.UP, report.byName().get("db"));
+        assertEquals(ProbeStatus.DOWN, report.byName().get("cache"));
+    }
 }

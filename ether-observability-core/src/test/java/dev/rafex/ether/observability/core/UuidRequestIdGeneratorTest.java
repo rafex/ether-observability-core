@@ -5,15 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import dev.rafex.ether.observability.core.request.UuidRequestIdGenerator;
+
 class UuidRequestIdGeneratorTest {
 
-	@Test
-	void shouldGenerateUniqueRequestIds() {
-		final var generator = new UuidRequestIdGenerator();
-		final var first = generator.nextId();
-		final var second = generator.nextId();
+    @Test
+    void shouldGenerateUniqueRequestIds() {
+        final var generator = new UuidRequestIdGenerator();
+        final var first = generator.nextId();
+        final var second = generator.nextId();
 
-		assertTrue(first.contains("-"));
-		assertNotEquals(first, second);
-	}
+        assertTrue(first.contains("-"));
+        assertNotEquals(first, second);
+    }
 }
